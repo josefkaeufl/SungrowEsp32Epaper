@@ -1,0 +1,16 @@
+#ifndef SGESP32EPAPER_CFG
+#define SGESP32EPAPER_CFG
+
+
+#define DEFAULT_WLAN_SSID "Skynet"
+#define DEFAULT_WLAN_PASSWORD "ilikehumans"
+
+#define MODBUS_SERVER_IP_1_OCT 192
+#define MODBUS_SERVER_IP_2_OCT 168
+#define MODBUS_SERVER_IP_3_OCT 0
+#define MODBUS_SERVER_IP_4_OCT 180
+
+#define SWVERSION "0.1.0"
+
+
+#endif
