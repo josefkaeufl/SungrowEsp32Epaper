@@ -1,6 +1,6 @@
 # SungrowEsp32Epaper
 Visualization of Sungrow PV converter data. Focus is on visualization of consumed PV power.
-
+![Hw screenshot front](front.jpg)
 
 ## Prepare Arduino IDE
 
@@ -40,7 +40,7 @@ Configer MODBUS_SERVER_IP_1_OCT to MODBUS_SERVER_IP_4_OCT with respect to the DH
 
 ### ESP32 Lilygo
 You will need this hardware:
-[The Lilygo ESP32 e-Paper display (PH 2.0 variant)](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu) and 
+[The Lilygo ESP32 e-Paper display (PH 2.0 variant)](https://de.aliexpress.com/item/1005002006058892.html?spm=a2g0o.order_list.0.0.56495c5fTINk9D&gatewayAdapt=glo2deu). 
 A battery is not mandatory as the hw is powered over USB. But in case you want to use it (temporary) without a USB connection, you will need something like this:
 [Battery (example)](https://de.aliexpress.com/item/1005002919536938.html?spm=a2g0o.productlist.0.0.74036fa6idQD2W&ad_pvid=202205021227217858146889041840000671022_1&s=p) 
 
