@@ -61,6 +61,27 @@ bool SgEsp32Epaper_Wifi::Connect(void)
     }
   }
 
+  if( retValue == true )
+  {
+    // Ip adresse
+    IPAddress ip = WiFi.localIP();
+    Serial.print("IP-Address: ");
+    Serial.println(ip);
+
+    // MAC-Adresse abrufen und ausgeben
+    uint8_t mac[6];
+    WiFi.macAddress(mac);
+
+    Serial.print("MAC-Address: ");
+    for (int i = 0; i < 6; i++) {
+      Serial.print(mac[i], HEX);
+      if (i < 5) {
+        Serial.print(":");
+      }
+    }
+    Serial.println();
+  }
+
   Serial.println("done");
   return retValue;
 }

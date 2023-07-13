@@ -8,19 +8,14 @@ SgEsp32Epaper_Sungrow::SgEsp32Epaper_Sungrow()
 {
   _Remote.fromString("192.168.0.180");
   _Modbus.client();
-  delay(100);
+  delay(300);
   _Modbus.connect(_Remote);
-  delay(100);
+  delay(300);
 
   if( !_Modbus.isConnected(_Remote) )
   {
     Serial.println("Connection to MODBUS server failed!");
   }
-}
-
-bool SgEsp32Epaper_Sungrow::_ConnectWifi()
-{
-
 }
 
 long SgEsp32Epaper_Sungrow::ReadPowerFromPv()
@@ -298,4 +293,16 @@ double SgEsp32Epaper_Sungrow::ReadTotalExportedEnergy()
   Serial.println(" kW/h");
 
   return (double)( ( res[0] + (res[1]<<16) ) * 0.1 );
+}
+
+void SgEsp32Epaper_Sungrow::Disconnect()
+{
+  _Modbus.disconnect(_Remote);
+
+  while( _Modbus.isConnected(_Remote) )
+  {
+    delay(100);
+  }
+
+  Serial.println("Connection to MODBUS server closed!");
 }

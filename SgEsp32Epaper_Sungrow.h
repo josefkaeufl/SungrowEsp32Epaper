@@ -23,8 +23,8 @@ class SgEsp32Epaper_Sungrow
     double ReadDailyImportedEnergy();
     double ReadTotalUsedEnergy();
     double ReadTotalExportedEnergy();
+    void Disconnect();
   private:
-    bool _ConnectWifi();
     IPAddress _Remote;
     ModbusTCP _Modbus;
     

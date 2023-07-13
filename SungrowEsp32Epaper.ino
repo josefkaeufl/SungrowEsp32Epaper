@@ -39,14 +39,13 @@ void loop() {
     
     ScreenObj.UpdateScreen();
     
-    Serial.println("Going to sleep now");
     delay(100);
     Serial.flush(); 
 
-    esp_sleep_enable_timer_wakeup(1000000 * 60 * 2); // (24 * 6 / 2) = 72 Aufrufe
-
-    esp_deep_sleep_start();
+    esp_sleep_enable_timer_wakeup(1000000 * 60 * 5); // (24 * 6 / 5)
   }
+
+  esp_deep_sleep_start();
 
   Serial.println("This will never be printed");
   while(1){;}

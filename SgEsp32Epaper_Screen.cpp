@@ -62,6 +62,8 @@ void SgEsp32Epaper_Screen::UpdateScreen(void)
   epd_clear();
   epd_draw_grayscale_image(epd_full_screen(), _framebuffer);
   epd_poweroff_all();
+
+  Sungrow.Disconnect();
 }
 
 void SgEsp32Epaper_Screen::NightScreen(void)
@@ -84,6 +86,8 @@ void SgEsp32Epaper_Screen::NightScreen(void)
   epd_clear();
   epd_draw_grayscale_image(epd_full_screen(), _framebuffer);
   epd_poweroff_all();
+
+  Sungrow.Disconnect();
 }
 
 
@@ -207,18 +211,33 @@ void SgEsp32Epaper_Screen::_UpdateScreenNow(SgEsp32Epaper_Sungrow& Sungrow)
     Serial.print("PercRest: ");Serial.println(PercRest);
     _DrawRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 30, PercGeneratingNow, PercConsumingNow, PercRest, 150, 200, 230);
   }
-
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "jetzt", &NowTextX, &NowTextY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "now", &NowTextX, &NowTextY, _framebuffer);
+#endif
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "erzeugt", &NowTextGeneratedX, &NowTextGeneratedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "generating", &NowTextGeneratedX, &NowTextGeneratedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(PvGeneratingNow/1000).c_str(), &NowTextGeneratedValueX, &NowTextGeneratedValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW", &NowTextGeneratedValueX, &NowTextGeneratedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "verbraucht", &NowTextConsumedX, &NowTextConsumedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "consuming", &NowTextConsumedX, &NowTextConsumedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(PvConsumingNow/1000).c_str(), &NowTextConsumedValueX, &NowTextConsumedValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW", &NowTextConsumedValueX, &NowTextConsumedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "max erzeugt", &NowTextAthGenX, &NowTextAthGenY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "a.t. max gen", &NowTextAthGenX, &NowTextAthGenY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(PvGeneratedMax/1000).c_str(), &NowTextAthGenValueX, &NowTextAthGenValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW", &NowTextAthGenValueX, &NowTextAthGenValueY, _framebuffer);
 }
@@ -268,15 +287,31 @@ void SgEsp32Epaper_Screen::_UpdateScreenNowSleep(void)
 
   _DrawPartialRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 0, 360, 230);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "jetzt", &NowTextX, &NowTextY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "now", &NowTextX, &NowTextY, _framebuffer);
+#endif
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "erzeugt", &NowTextGeneratedX, &NowTextGeneratedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "generating", &NowTextGeneratedX, &NowTextGeneratedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, "-", &NowTextGeneratedValueX, &NowTextGeneratedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "verbraucht", &NowTextConsumedX, &NowTextConsumedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "consuming", &NowTextConsumedX, &NowTextConsumedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, "-", &NowTextConsumedValueX, &NowTextConsumedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "jemals max.", &NowTextAthGenX, &NowTextAthGenY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "a.t. max gen", &NowTextAthGenX, &NowTextAthGenY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(PvGeneratedMax/1000).c_str(), &NowTextAthGenValueX, &NowTextAthGenValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW", &NowTextAthGenValueX, &NowTextAthGenValueY, _framebuffer);
 }
@@ -328,17 +363,33 @@ void SgEsp32Epaper_Screen::_UpdateScreenToday(SgEsp32Epaper_Sungrow& Sungrow)
 
   _DrawRing(CircleTodayX, CircleTodayY, CircleTodayR, (CircleTodayR - 30), 30, PercExportedEnergy, PercUsedEnergy, 0.0f, 150, 200, 255);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "heute", &TodayTextX, &TodayTextY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "today", &TodayTextX, &TodayTextY, _framebuffer);
+#endif
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "erzeugt", &TodayTextGeneratedX, &TodayTextGeneratedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "generated", &TodayTextGeneratedX, &TodayTextGeneratedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(ExportedEnergy+UsedEnergy).c_str(), &TodayTextGeneratedValueX, &TodayTextGeneratedValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW/h", &TodayTextGeneratedValueX, &TodayTextGeneratedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "verbraucht", &TodayTextConsumedX, &TodayTextConsumedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "consumed", &TodayTextConsumedX, &TodayTextConsumedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(UsedEnergy).c_str(), &TodayTextConsumedValueX, &TodayTextConsumedValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW/h", &TodayTextConsumedValueX, &TodayTextConsumedValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "importiert", &TodayTextImportedX, &TodayTextImportedY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "imported", &TodayTextImportedX, &TodayTextImportedY, _framebuffer);
+#endif
   writeln((GFXfont *)&TitilliumWeb_16, String(ImportedEnergy).c_str(), &TodayTextImportedValueX, &TodayTextImportedValueY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, " kW/h", &TodayTextImportedValueX, &TodayTextImportedValueY, _framebuffer);
 }
@@ -387,21 +438,41 @@ void SgEsp32Epaper_Screen::_UpdateScreenStatus(SgEsp32Epaper_Sungrow& Sungrow)
 
 
     // status
+#if(LANGUAGE == LANGUAGE_GERMAN)
+    writeln((GFXfont *)&TitilliumWeb_16, "Status", &StatusTextX, &StatusTextY, _framebuffer);
+#else
     writeln((GFXfont *)&TitilliumWeb_16, "status", &StatusTextX, &StatusTextY, _framebuffer);
+#endif
+
     if( Sungrow.IsPvGenerating() )
     {
+      #if(LANGUAGE == LANGUAGE_GERMAN)
+      writeln((GFXfont *)&TitilliumWeb_16, "generiert", &StatusValueX, &StatusValueY, _framebuffer);
+      #else
       writeln((GFXfont *)&TitilliumWeb_16, "generating", &StatusValueX, &StatusValueY, _framebuffer);
+      #endif
     }
     else
     {
+      #if(LANGUAGE == LANGUAGE_GERMAN)
+      writeln((GFXfont *)&TitilliumWeb_16, "inaktiv", &StatusValueX, &StatusValueY, _framebuffer);
+      #else
       writeln((GFXfont *)&TitilliumWeb_16, "idle", &StatusValueX, &StatusValueY, _framebuffer);
+      #endif
     }
-
-    writeln((GFXfont *)&TitilliumWeb_16, "east", &String2TextX, &String2TextY, _framebuffer);
+#if(LANGUAGE == LANGUAGE_GERMAN)
+    writeln((GFXfont *)&TitilliumWeb_16, "Ost", &String2TextX, &String2TextY, _framebuffer);
+#else
+    writeln((GFXfont *)&TitilliumWeb_16, "east", &String2TextX, &String2TextY, _framebuffer); 
+#endif
     writeln((GFXfont *)&TitilliumWeb_16, String(Sungrow.ReadPowerString2()/1000).c_str(), &String2ValueX, &String2ValueY, _framebuffer);
     writeln((GFXfont *)&TitilliumWeb_16, " kW", &String2ValueX, &String2ValueY, _framebuffer);
 
+#if(LANGUAGE == LANGUAGE_GERMAN)
+    writeln((GFXfont *)&TitilliumWeb_16, "West", &String1TextX, &String1TextY, _framebuffer);
+#else
     writeln((GFXfont *)&TitilliumWeb_16, "west", &String1TextX, &String1TextY, _framebuffer);
+#endif
     writeln((GFXfont *)&TitilliumWeb_16, String(Sungrow.ReadPowerString1()/1000).c_str(), &String1ValueX, &String1ValueY, _framebuffer);
     writeln((GFXfont *)&TitilliumWeb_16, " kW", &String1ValueX, &String1ValueY, _framebuffer);
   }
@@ -411,8 +482,13 @@ void SgEsp32Epaper_Screen::_UpdateScreenStatus(SgEsp32Epaper_Sungrow& Sungrow)
     epd_draw_vline(VLineX, VLineY, EPD_HEIGHT - 160, 50, _framebuffer);
 
     // status
+    #if(LANGUAGE == LANGUAGE_GERMAN)
+    writeln((GFXfont *)&TitilliumWeb_16, "Status", &StatusTextX, &StatusTextY, _framebuffer);
+    writeln((GFXfont *)&TitilliumWeb_16, "getrennt", &StatusValueX, &StatusValueY, _framebuffer);
+    #else
     writeln((GFXfont *)&TitilliumWeb_16, "status", &StatusTextX, &StatusTextY, _framebuffer);
     writeln((GFXfont *)&TitilliumWeb_16, "disconnected", &StatusValueX, &StatusValueY, _framebuffer);
+    #endif
   }
 
   //DEBUG
@@ -505,8 +581,16 @@ void SgEsp32Epaper_Screen::_UpdateScreenInfobar(void)
   int InfoBlockGridY = InfoTextY - 20;
 
   //top
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "letztes Update: ", &InfoTimeX, &infoTimeY, _framebuffer);
+  char buffer[100];
+  strftime(buffer, sizeof(buffer), "%d.%m.%Y, %H:%M:%S", localtime(&NowTimestamp));
+  String germanTimestamp(buffer);
+  writeln((GFXfont *)&TitilliumWeb_16, germanTimestamp.c_str(), &InfoTimeX, &infoTimeY, _framebuffer);  
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "last update: ", &InfoTimeX, &infoTimeY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, String(ctime(&NowTimestamp)).c_str(), &InfoTimeX, &infoTimeY, _framebuffer);
+#endif
 
   epd_draw_hline( 10, 54, EPD_WIDTH-20, 0, _framebuffer );
   epd_draw_hline( 10, 55, EPD_WIDTH-20, 0, _framebuffer );
@@ -539,9 +623,19 @@ void SgEsp32Epaper_Screen::_UpdateScreenInfobar(void)
   }
 
   //bottom
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "PV generierte Energie", &InfoTextX, &InfoTextY, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_16, "selbst verbraucht", &InfoTextHomeX, &InfoTextY, _framebuffer);
+  epd_fill_rect(InfoBlockHomeX, InfoBlockHomeY, 20, 20, 200, _framebuffer);
+  InfoTextGridX  = InfoTextGridX-20;
+  InfoBlockGridX = InfoBlockGridX-20;
+  writeln((GFXfont *)&TitilliumWeb_16, "ins Netz exportiert", &InfoTextGridX, &InfoTextY, _framebuffer);
+  epd_fill_rect(InfoBlockGridX, InfoBlockGridY, 20, 20, 150, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "PV generated power", &InfoTextX, &InfoTextY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, "consumed at home", &InfoTextHomeX, &InfoTextY, _framebuffer);
   epd_fill_rect(InfoBlockHomeX, InfoBlockHomeY, 20, 20, 200, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, "exported to grid", &InfoTextGridX, &InfoTextY, _framebuffer);
   epd_fill_rect(InfoBlockGridX, InfoBlockGridY, 20, 20, 150, _framebuffer);
+#endif
 }
