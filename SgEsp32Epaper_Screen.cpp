@@ -197,20 +197,27 @@ void SgEsp32Epaper_Screen::_UpdateScreenNow(SgEsp32Epaper_Sungrow& Sungrow)
   {
     _DrawPartialRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 0, 360, 230);
   }
-  else if( PvGeneratingNow < PvConsumingNow )
+  else 
   {
-    _DrawRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 30, 0, 100, 0, 150, 200, 230);
-  }
-  else
-  {
-    PercGeneratingNow = ((PvGeneratingNow - PvConsumingNow) / PvGeneratedMax) * 100;
-    PercConsumingNow  = (PvConsumingNow / PvGeneratedMax) * 100;
-    PercRest          = ((PvGeneratedMax - PvGeneratingNow) / PvGeneratedMax) * 100;
+    if( PvGeneratingNow < PvConsumingNow )
+    {
+      PercGeneratingNow = 0;
+      PercConsumingNow  = (PvGeneratingNow / PvGeneratedMax) * 100;
+      PercRest          = ((PvGeneratedMax - PercConsumingNow) / PvGeneratedMax) * 100;
+    }
+    else
+    {
+      PercGeneratingNow = ((PvGeneratingNow - PvConsumingNow) / PvGeneratedMax) * 100;
+      PercConsumingNow  = (PvConsumingNow / PvGeneratedMax) * 100;
+      PercRest          = ((PvGeneratedMax - PvGeneratingNow) / PvGeneratedMax) * 100;
+    }
+
     Serial.print("PercGeneratingNow: ");Serial.println(PercGeneratingNow);
     Serial.print("PercConsumingNow: ");Serial.println(PercConsumingNow);
     Serial.print("PercRest: ");Serial.println(PercRest);
     _DrawRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 30, PercGeneratingNow, PercConsumingNow, PercRest, 150, 200, 230);
   }
+
 #if(LANGUAGE == LANGUAGE_GERMAN)
   writeln((GFXfont *)&TitilliumWeb_16, "jetzt", &NowTextX, &NowTextY, _framebuffer);
 #else
@@ -531,6 +538,17 @@ void SgEsp32Epaper_Screen::_UpdateScreenStatusSleep(void)
   epd_draw_vline(VLineX, VLineY, EPD_HEIGHT - 160, 50, _framebuffer);
 
   // status
+
+#if(LANGUAGE == LANGUAGE_GERMAN)
+  writeln((GFXfont *)&TitilliumWeb_16, "Status", &StatusTextX, &StatusTextY, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_16, "Board aus", &StatusValueX, &StatusValueY, _framebuffer);
+
+  writeln((GFXfont *)&TitilliumWeb_16, "Ost", &String2TextX, &String2TextY, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_16, "-", &String2ValueX, &String2ValueY, _framebuffer);
+
+  writeln((GFXfont *)&TitilliumWeb_16, "West", &String1TextX, &String1TextY, _framebuffer);
+  writeln((GFXfont *)&TitilliumWeb_16, "-", &String1ValueX, &String1ValueY, _framebuffer);
+#else
   writeln((GFXfont *)&TitilliumWeb_16, "status", &StatusTextX, &StatusTextY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, "sleeping", &StatusValueX, &StatusValueY, _framebuffer);
 
@@ -539,6 +557,7 @@ void SgEsp32Epaper_Screen::_UpdateScreenStatusSleep(void)
 
   writeln((GFXfont *)&TitilliumWeb_16, "west", &String1TextX, &String1TextY, _framebuffer);
   writeln((GFXfont *)&TitilliumWeb_16, "-", &String1ValueX, &String1ValueY, _framebuffer);
+#endif
 
 }  
 
