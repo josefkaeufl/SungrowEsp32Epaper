@@ -5,8 +5,8 @@
 
 
 SgEsp32Epaper_Sungrow::SgEsp32Epaper_Sungrow()
+ : _Remote(MODBUS_SERVER_IP_1_OCT, MODBUS_SERVER_IP_2_OCT, MODBUS_SERVER_IP_3_OCT, MODBUS_SERVER_IP_4_OCT)
 {
-  _Remote.fromString("192.168.0.180");
   _Modbus.client();
   delay(300);
   _Modbus.connect(_Remote);
