@@ -146,7 +146,7 @@ void SgEsp32Epaper_Screen::_UpdateScreenNow(SgEsp32Epaper_Sungrow& Sungrow)
 {
   double PvGeneratingNow;
   double PvConsumingNow;
-  int PercGeneratingNow;
+  int PercExportingNow;
   int PercConsumingNow;
   int PercRest;
   double PvGeneratedMax;
@@ -201,21 +201,21 @@ void SgEsp32Epaper_Screen::_UpdateScreenNow(SgEsp32Epaper_Sungrow& Sungrow)
   {
     if( PvGeneratingNow < PvConsumingNow )
     {
-      PercGeneratingNow = 0;
+      //everything is consumed from generation
       PercConsumingNow  = (PvGeneratingNow / PvGeneratedMax) * 100;
-      PercRest          = ((PvGeneratedMax - PercConsumingNow) / PvGeneratedMax) * 100;
+      PercExportingNow  = 0;
     }
     else
     {
-      PercGeneratingNow = ((PvGeneratingNow - PvConsumingNow) / PvGeneratedMax) * 100;
+      //consuming less than producing
       PercConsumingNow  = (PvConsumingNow / PvGeneratedMax) * 100;
-      PercRest          = ((PvGeneratedMax - PvGeneratingNow) / PvGeneratedMax) * 100;
+      //the rest of the shown circle is the part which will be sent to to grid
+      PercExportingNow = ((PvGeneratingNow - PvConsumingNow) / PvGeneratedMax) * 100;
     }
 
-    Serial.print("PercGeneratingNow: ");Serial.println(PercGeneratingNow);
-    Serial.print("PercConsumingNow: ");Serial.println(PercConsumingNow);
-    Serial.print("PercRest: ");Serial.println(PercRest);
-    _DrawRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 30, PercGeneratingNow, PercConsumingNow, PercRest, 150, 200, 230);
+    PercRest = 100 - PercConsumingNow - PercExportingNow;
+
+    _DrawRing(CircleNowX, CircleNowY, CircleNowR, (CircleNowR - 30), 30, PercExportingNow, PercConsumingNow, PercRest, 150, 200, 230);
   }
 
 #if(LANGUAGE == LANGUAGE_GERMAN)
@@ -336,8 +336,15 @@ void SgEsp32Epaper_Screen::_UpdateScreenToday(SgEsp32Epaper_Sungrow& Sungrow)
   UsedEnergy = Sungrow.ReadDailyUsedEnergy();
   ImportedEnergy = Sungrow.ReadDailyImportedEnergy();
 
-  PercExportedEnergy =  ( ExportedEnergy * 100)  / ( ExportedEnergy + UsedEnergy);
-  PercUsedEnergy = 100 - PercExportedEnergy;
+  if(ExportedEnergy + UsedEnergy == 0)
+  {
+    PercExportedEnergy = 0;
+    PercUsedEnergy = 0;
+  } else
+  {
+    PercExportedEnergy =  ( ExportedEnergy * 100)  / ( ExportedEnergy + UsedEnergy);
+    PercUsedEnergy = 100 - PercExportedEnergy;
+  }
 
 
   /* *********************** Layout ************************ */
@@ -368,7 +375,7 @@ void SgEsp32Epaper_Screen::_UpdateScreenToday(SgEsp32Epaper_Sungrow& Sungrow)
 
   /* *********************************************** */
 
-  _DrawRing(CircleTodayX, CircleTodayY, CircleTodayR, (CircleTodayR - 30), 30, PercExportedEnergy, PercUsedEnergy, 0.0f, 150, 200, 255);
+  _DrawRing(CircleTodayX, CircleTodayY, CircleTodayR, (CircleTodayR - 30), 30, PercExportedEnergy, PercUsedEnergy, 0.0f, 150, 200, 233);
 
 #if(LANGUAGE == LANGUAGE_GERMAN)
   writeln((GFXfont *)&TitilliumWeb_16, "heute", &TodayTextX, &TodayTextY, _framebuffer);
