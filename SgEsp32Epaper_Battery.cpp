@@ -44,15 +44,15 @@ int SgEsp32Epaper_Battery::GetBatteryStatus(void)
   {
     retVal = SG32EPAPER_BATTERY_STATUS_USB;
   }
-  else if(battery_voltage >= (float)4.2) //ToDo
+  else if(battery_voltage >= (float)3.80)
   {
     retVal = SG32EPAPER_BATTERY_STATUS_99P;
   }
-  else if(battery_voltage >= (float)4.0) //ToDo
+  else if(battery_voltage >= (float)3.60)
   {
     retVal = SG32EPAPER_BATTERY_STATUS_66P;
   }
-  else if(battery_voltage >= (float)3.8) //ToDo
+  else if(battery_voltage >= (float)3.45)
   {
     retVal = SG32EPAPER_BATTERY_STATUS_33P;
   }
