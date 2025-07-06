@@ -1,4 +1,4 @@
-# SungrowEsp32Epaper
+# SungrowEsp32Epaper (SH inverters)
 Visualization of Sungrow PV converter data. Focus is on visualization of consumed PV power.
 ![Hw screenshot front](front.jpg)
 
